@@ -22,7 +22,7 @@ First, require `syllabize`. Then, you can call the `count_vowels` method on a st
 
 ```ruby
 Syllabize::Counter.new('Ruby').count_syllables
-# => 4
+# => 2
 ```
 
 ## Contributing
