@@ -74,6 +74,8 @@ describe Syllabize::Counter do
       expect(Syllabize::Counter.new('why').count_syllables).to eq(1)
       expect(Syllabize::Counter.new('plain').count_syllables).to eq(1)
       expect(Syllabize::Counter.new('sticky').count_syllables).to eq(2)
+      expect(Syllabize::Counter.new('syzygy').count_syllables).to eq(3)
+      expect(Syllabize::Counter.new('yeses').count_syllables).to eq(2)
     end
   end
 
