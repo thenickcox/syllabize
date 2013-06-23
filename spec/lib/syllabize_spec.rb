@@ -2,7 +2,8 @@ require_relative '../spec_helper'
 
 class Syllabize::Counter
   public :count_vowels, :ends_in_silent_e?, :count_diphthongs,
-         :contains_diphthongs?, :ends_in_y?
+         :contains_diphthongs?, :contains_non_initial_y?,
+         :count_ys_in_vowel_role
 end
 
 describe Syllabize::Counter do
@@ -27,15 +28,28 @@ describe Syllabize::Counter do
     end
   end
 
-  describe '#ends_in_y?' do
-    context 'ends in y' do
+  describe '#contains_non_initial_y?' do
+    context 'has a y in middle or end of word' do
       it 'returns true if the word ends in y' do
-        expect(Syllabize::Counter.new('sticky').ends_in_y?).to be_true
+        expect(Syllabize::Counter.new('sticky').contains_non_initial_y?).to be_true
       end
     end
-    context 'does not end in y' do
+    context 'begins with y' do
       it 'returns false if the word does not end in y' do
-        expect(Syllabize::Counter.new('yes').ends_in_y?).to be_false
+        expect(Syllabize::Counter.new('yes').contains_non_initial_y?).to be_false
+      end
+    end
+    context 'does not contain y' do
+      it 'returns false if the word does not contain y' do
+        expect(Syllabize::Counter.new('please').contains_non_initial_y?).to be_false
+      end
+    end
+  end
+
+  describe '#count_ys_in_vowel_role' do
+    context '2 ys in vowel role' do
+      it 'returns 2 for ys_in_vowel_role' do
+        expect(Syllabize::Counter.new('slyly').count_ys_in_vowel_role).to eq(2)
       end
     end
   end
