@@ -3,7 +3,7 @@ require_relative '../spec_helper'
 class Syllabize::Counter
   public :count_vowels, :ends_in_silent_e?, :count_diphthongs,
          :contains_diphthongs?, :ends_in_sm?, :contains_non_initial_y?,
-         :count_ys_in_vowel_role
+         :count_ys_in_vowel_role, :contains_le_vowel_sound?
 end
 
 describe Syllabize::Counter do
@@ -23,7 +23,20 @@ describe Syllabize::Counter do
     end
     context 'not silent e' do
       it 'returns false if the word ends in e but is not silent' do
-        expect(Syllabize::Counter.new('tickle').ends_in_silent_e?).to be_false
+        expect(Syllabize::Counter.new('now').ends_in_silent_e?).to be_false
+      end
+    end
+  end
+
+  describe '#contains_le_vowel_sound?' do
+    context 'does contain' do
+      it 'returns true if the word contains -le as a vowel sound' do
+        expect(Syllabize::Counter.new('castle').contains_le_vowel_sound?).to be_true
+      end
+    end
+    context 'does not contain' do
+      it 'returns false if the word does not contain le vowel' do
+        expect(Syllabize::Counter.new('no').contains_le_vowel_sound?).to be_false
       end
     end
   end
@@ -83,6 +96,9 @@ describe Syllabize::Counter do
         'syzygy'    => 3,
         'yeses'     => 2,
         'communism' => 4,
+        'please'    => 1,
+        'candle'    => 2,
+        'handling'  => 3,
       }.each do |word, syllable_count|
         expect(Syllabize::Counter.new(word).count_syllables).to eq(syllable_count)
       end

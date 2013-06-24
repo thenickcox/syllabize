@@ -11,7 +11,7 @@ module Syllabize
 
     CONSONANTS = /[bcdfghjklmnpqrstvwxz]/i
     VOWELS = /[aeiou]/i
-    CONSONANT_E = /le/i
+    LE_VOWEL_SOUND = /((le)\z)|((le(d|r|s))|(ling)\z)/i
     DIPHTHONGS = /ou|ie|oo|oi|ea|ee|ai|ae/i
     Y_AS_VOWEL = /[^yY][yY]/
 
@@ -20,6 +20,7 @@ module Syllabize
       syllables -= 1 if ends_in_silent_e?
       syllables -= count_diphthongs if contains_diphthongs?
       syllables += count_ys_in_vowel_role if contains_non_initial_y?
+      syllables += 1 if contains_le_vowel_sound?
       syllables += 1 if ends_in_sm?
       syllables <= 1 ? 1 : syllables
     end
@@ -31,8 +32,11 @@ module Syllabize
     end
 
     def ends_in_silent_e?
-      return false if word.downcase.scan(CONSONANT_E).any?
       word.downcase.each_char.to_a[-1] == 'e'
+    end
+
+    def contains_le_vowel_sound?
+      word.scan(LE_VOWEL_SOUND).any?
     end
 
     def contains_non_initial_y?
