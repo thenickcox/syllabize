@@ -40,7 +40,7 @@ module Syllabize
     end
 
     def count_ys_in_vowel_role
-      word.scan(Y_REGEX).size
+      word.scan(Y_AS_VOWEL).size
     end
 
     def contains_diphthongs?
