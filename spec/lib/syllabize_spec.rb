@@ -2,7 +2,7 @@ require_relative '../spec_helper'
 
 class Syllabize::Counter
   public :count_vowels, :ends_in_silent_e?, :count_diphthongs,
-         :contains_diphthongs?, :contains_non_initial_y?,
+         :contains_diphthongs?, :ends_in_sm?, :contains_non_initial_y?,
          :count_ys_in_vowel_role
 end
 
@@ -68,14 +68,24 @@ describe Syllabize::Counter do
     end
   end
 
+  describe '#ends_in_sm?' do
+    it 'returns true if the word ends in -sm' do
+      expect(Syllabize::Counter.new('communism').ends_in_sm?).to be_true
+    end
+  end
+
   describe '#count_syllables' do
     it 'counts the syllables in a word' do
-      expect(Syllabize::Counter.new('blizzard').count_syllables).to eq(2)
-      expect(Syllabize::Counter.new('why').count_syllables).to eq(1)
-      expect(Syllabize::Counter.new('plain').count_syllables).to eq(1)
-      expect(Syllabize::Counter.new('sticky').count_syllables).to eq(2)
-      expect(Syllabize::Counter.new('syzygy').count_syllables).to eq(3)
-      expect(Syllabize::Counter.new('yeses').count_syllables).to eq(2)
+      { 'blizzard'  => 2,
+        'why'       => 1,
+        'plain'     => 1,
+        'sticky'    => 2,
+        'syzygy'    => 3,
+        'yeses'     => 2,
+        'communism' => 4,
+      }.each do |word, syllable_count|
+        expect(Syllabize::Counter.new(word).count_syllables).to eq(syllable_count)
+      end
     end
   end
 
