@@ -14,6 +14,7 @@ module Syllabize
     LE_VOWEL_SOUND = /((le)\z)|((le(d|r|s))|(ling)\z)/i
     DIPHTHONGS = /ou|ie|oo|oi|ea|ee|ai|ae/i
     Y_AS_VOWEL = /[^yY][yY]/
+    RE_VOWEL = /(^re[aeiou])/i
 
     def count_syllables
       syllables = count_vowels
@@ -45,6 +46,10 @@ module Syllabize
 
     def count_ys_in_vowel_role
       word.scan(Y_AS_VOWEL).size
+    end
+
+    def begins_with_re_vowel?
+      word.scan(RE_VOWEL).any?
     end
 
     def contains_diphthongs?

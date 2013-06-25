@@ -3,7 +3,8 @@ require_relative '../spec_helper'
 class Syllabize::Counter
   public :count_vowels, :ends_in_silent_e?, :count_diphthongs,
          :contains_diphthongs?, :ends_in_sm?, :contains_non_initial_y?,
-         :count_ys_in_vowel_role, :contains_le_vowel_sound?
+         :count_ys_in_vowel_role, :contains_le_vowel_sound?,
+         :begins_with_re_vowel?
 end
 
 describe Syllabize::Counter do
@@ -74,6 +75,13 @@ describe Syllabize::Counter do
     end
   end
 
+  describe '#begins_with_re_vowel?' do
+    it 'returns true if the word begins with re- and a vowel' do
+      expect(Syllabize::Counter.new('rearrange').begins_with_re_vowel?).to be_true
+      expect(Syllabize::Counter.new('dreary').begins_with_re_vowel?).to be_false
+    end
+  end
+
   describe '#count_diphthongs' do
     it 'counts the diphthongs in a word' do
       expect(Syllabize::Counter.new('air').count_diphthongs).to eq(1) 
@@ -99,6 +107,7 @@ describe Syllabize::Counter do
         'please'    => 1,
         'candle'    => 2,
         'handling'  => 3,
+        'realize'   => 3,
       }.each do |word, syllable_count|
         expect(Syllabize::Counter.new(word).count_syllables).to eq(syllable_count)
       end
