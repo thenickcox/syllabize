@@ -108,6 +108,8 @@ describe Syllabize::Counter do
         'candle'    => 2,
         'handling'  => 3,
         'realize'   => 3,
+        'really'    => 2,
+        'cooperate' => 4,
       }.each do |word, syllable_count|
         expect(Syllabize::Counter.new(word).count_syllables).to eq(syllable_count)
       end

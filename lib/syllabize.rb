@@ -1,4 +1,5 @@
 require "syllabize/version"
+require 'yaml'
 
 module Syllabize
 
@@ -17,16 +18,34 @@ module Syllabize
     RE_VOWEL = /(^re[aeiou])/i
 
     def count_syllables
-      syllables = count_vowels
-      syllables -= 1 if ends_in_silent_e?
-      syllables -= count_diphthongs if contains_diphthongs?
-      syllables += count_ys_in_vowel_role if contains_non_initial_y?
-      syllables += 1 if contains_le_vowel_sound?
-      syllables += 1 if ends_in_sm?
-      syllables <= 1 ? 1 : syllables
+      return handle_exceptions if exceptions.keys.include?(word)
+      @syllables = count_vowels
+      handle_additions
+      handle_subtractions
+      @syllables <= 1 ? 1 : @syllables
     end
 
     private
+
+    def exceptions
+      exceptions = YAML::load_file(File.join(__dir__, 'exceptions.yml'))['exceptions']
+    end
+
+    def handle_exceptions
+      exceptions[word.to_s]
+    end
+
+    def handle_additions
+      @syllables += count_ys_in_vowel_role if contains_non_initial_y?
+      if contains_le_vowel_sound? || begins_with_re_vowel? || ends_in_sm?
+        @syllables += 1
+      end
+    end
+
+    def handle_subtractions
+      @syllables -= 1 if ends_in_silent_e?
+      @syllables -= count_diphthongs if contains_diphthongs?
+    end
 
     def count_vowels
       word.scan(VOWELS).count
