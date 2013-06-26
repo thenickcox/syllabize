@@ -96,22 +96,29 @@ describe Syllabize::Counter do
   end
 
   describe '#count_syllables' do
-    it 'counts the syllables in a word' do
-      { 'blizzard'  => 2,
-        'why'       => 1,
-        'plain'     => 1,
-        'sticky'    => 2,
-        'syzygy'    => 3,
-        'yeses'     => 2,
-        'communism' => 4,
-        'please'    => 1,
-        'candle'    => 2,
-        'handling'  => 3,
-        'realize'   => 3,
-        'really'    => 2,
-        'cooperate' => 4,
-      }.each do |word, syllable_count|
-        expect(Syllabize::Counter.new(word).count_syllables).to eq(syllable_count), "#{word} was not the correct number of syllables"
+    context 'given a string' do
+      it 'counts the syllables in a word' do
+        { 'blizzard'  => 2,
+          'why'       => 1,
+          'plain'     => 1,
+          'sticky'    => 2,
+          'syzygy'    => 3,
+          'yeses'     => 2,
+          'communism' => 4,
+          'please'    => 1,
+          'candle'    => 2,
+          'handling'  => 3,
+          'realize'   => 3,
+          'really'    => 2,
+          'cooperate' => 4,
+        }.each do |word, syllable_count|
+          expect(Syllabize::Counter.new(word).count_syllables).to eq(syllable_count), "#{word} was not the correct number of syllables"
+        end
+      end
+    end
+    context 'other data' do
+      it 'raises an error' do
+        expect { Syllabize::Counter.new(7) }.to raise_error
       end
     end
   end

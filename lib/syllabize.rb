@@ -8,6 +8,7 @@ module Syllabize
 
     def initialize(word)
       @word = word
+      handle_non_string_input
       load_exceptions
     end
 
@@ -27,6 +28,12 @@ module Syllabize
     end
 
     private
+
+    def handle_non_string_input
+      if !(word.is_a?(String))
+        raise ArgumentError.new "#{word} must be a string"
+      end
+    end
 
     def load_exceptions
       @exceptions_file = YAML::load_file(File.join(__dir__, 'exceptions.yml'))
