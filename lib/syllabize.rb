@@ -4,10 +4,11 @@ require 'yaml'
 module Syllabize
 
   class Counter
-    attr_accessor :word
+    attr_accessor :word, :exceptions_file
 
     def initialize(word)
       @word = word
+      load_exceptions
     end
 
     CONSONANTS = /[bcdfghjklmnpqrstvwxz]/i
@@ -27,8 +28,12 @@ module Syllabize
 
     private
 
+    def load_exceptions
+      @exceptions_file = YAML::load_file(File.join(__dir__, 'exceptions.yml'))
+    end
+
     def exceptions
-      exceptions = YAML::load_file(File.join(__dir__, 'exceptions.yml'))['exceptions']
+      @exceptions_file['exceptions']
     end
 
     def handle_exceptions
