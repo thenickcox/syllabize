@@ -111,7 +111,7 @@ describe Syllabize::Counter do
         'really'    => 2,
         'cooperate' => 4,
       }.each do |word, syllable_count|
-        expect(Syllabize::Counter.new(word).count_syllables).to eq(syllable_count)
+        expect(Syllabize::Counter.new(word).count_syllables).to eq(syllable_count), "#{word} was not the correct number of syllables"
       end
     end
   end
