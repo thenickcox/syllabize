@@ -1,4 +1,3 @@
-require 'syllabize/version'
 require 'yaml'
 
 module Syllabize
@@ -7,7 +6,7 @@ module Syllabize
     attr_accessor :word, :exceptions_file
 
     def initialize(word)
-      @word = word
+      @word = strip_apostrophes(word)
       handle_non_string_input
       load_exceptions
     end
@@ -33,6 +32,10 @@ module Syllabize
     def __dir__
       File.dirname(__FILE__)
     end unless respond_to?(:__dir__, true)
+
+    def strip_apostrophes(string)
+      string.gsub("'",'')
+    end
 
     def handle_non_string_input
       if !(word.is_a?(String))
@@ -69,7 +72,7 @@ module Syllabize
     end
 
     def ends_in_silent_e?
-      word.downcase.each_char.to_a[-1] == 'e'
+      word.downcase.each_char.to_a.last == 'e'
     end
 
     def contains_le_vowel_sound?

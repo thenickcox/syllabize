@@ -98,7 +98,8 @@ describe Syllabize::Counter do
   describe '#count_syllables' do
     context 'given a string' do
       it 'counts the syllables in a word' do
-        { 'blizzard'  => 2,
+        {
+          'blizzard'  => 2,
           'why'       => 1,
           'plain'     => 1,
           'sticky'    => 2,
@@ -111,9 +112,12 @@ describe Syllabize::Counter do
           'realize'   => 3,
           'really'    => 2,
           'cooperate' => 4,
-          'ways'      => 1
-        }.each do |word, syllable_count|
-          expect(Syllabize::Counter.new(word).count_syllables).to eq(syllable_count), "#{word} was not the correct number of syllables"
+          'ways'      => 1,
+          "Wayne's"   => 1,
+          'basement'  => 2
+        }.each do |word, actual|
+          count = Syllabize::Counter.new(word).count_syllables
+          expect(count).to eq(actual), "#{word} was not the correct number of syllables; expected #{actual}, was #{count}"
         end
       end
     end
