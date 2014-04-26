@@ -1,4 +1,4 @@
-require "syllabize/version"
+require 'syllabize/version'
 require 'yaml'
 
 module Syllabize
@@ -28,6 +28,11 @@ module Syllabize
     end
 
     private
+
+    # for Ruby 1.9
+    def __dir__
+      File.dirname(__FILE__)
+    end unless respond_to?(:__dir__, true)
 
     def handle_non_string_input
       if !(word.is_a?(String))
