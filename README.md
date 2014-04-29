@@ -22,7 +22,7 @@ First, require `syllabize`. Then, you can call the `count_syllables` method on a
 
 ```bash
 require 'syllabize'
-=> true
+# => true
 'Ruby'.count_syllables
 # => 2
 ```
