@@ -20,8 +20,8 @@ Or install it yourself as:
 
 First, require `syllabize`. Then, you can call the `count_syllables` method on a string.
 
-```ruby
-require 'syllables'
+```bash
+require 'syllabize'
 => true
 'Ruby'.count_syllables
 # => 2
