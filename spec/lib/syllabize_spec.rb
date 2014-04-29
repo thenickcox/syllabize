@@ -129,4 +129,9 @@ describe Syllabize::Counter do
     end
   end
 
+  describe 'string method' do
+    subject { 'hello'.count_syllables }
+    it { should == 2 }
+  end
+
 end

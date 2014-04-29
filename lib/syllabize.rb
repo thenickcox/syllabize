@@ -105,3 +105,9 @@ module Syllabize
   end
 
 end
+
+class String
+  def count_syllables
+    Syllabize::Counter.new(self).count_syllables
+  end
+end

@@ -18,10 +18,12 @@ Or install it yourself as:
 
 ## Usage
 
-First, require `syllabize`. Then, you can call the `count_vowels` method on a string.
+First, require `syllabize`. Then, you can call the `count_syllables` method on a string.
 
 ```ruby
-Syllabize::Counter.new('Ruby').count_syllables
+require 'syllables'
+=> true
+'Ruby'.count_syllables
 # => 2
 ```
 
