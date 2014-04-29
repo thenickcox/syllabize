@@ -6,7 +6,7 @@ module Syllabize
     attr_accessor :word, :exceptions_file
 
     def initialize(word)
-      @word = strip_apostrophes(word)
+      @word = strip_punctuation(word)
       handle_non_string_input
       load_exceptions
     end
@@ -33,8 +33,8 @@ module Syllabize
       File.dirname(__FILE__)
     end unless respond_to?(:__dir__, true)
 
-    def strip_apostrophes(string)
-      string.gsub("'",'')
+    def strip_punctuation(string)
+      string.gsub(/\W/,'')
     end
 
     def handle_non_string_input
