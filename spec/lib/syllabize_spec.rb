@@ -4,7 +4,7 @@ class Syllabize::Counter
   public :count_vowels, :ends_in_silent_e?, :count_diphthongs,
          :contains_diphthongs?, :ends_in_sm?, :contains_non_initial_y?,
          :count_ys_in_vowel_role, :contains_le_vowel_sound?,
-         :begins_with_re_vowel?
+         :begins_with_re_vowel?, :is_int_in_string_form?
 end
 
 describe Syllabize::Counter do
@@ -13,6 +13,36 @@ describe Syllabize::Counter do
     let(:word) { 'America' }
     it 'counts the vowels in a word' do
       expect(Syllabize::Counter.new(word).count_vowels).to eql(4)
+    end
+  end
+
+  describe '#is_int_in_string_form?' do
+    subject { Syllabize::Counter.new(word).is_int_in_string_form? }
+    context 'is an int' do
+      context 'zero' do
+        let(:word) { '0' }
+        it 'returns true' do
+          expect(subject).to be_true
+        end
+      end
+      context 'positive' do
+        let(:word) { '500' }
+        it 'returns true' do
+          expect(subject).to be_true
+        end
+      end
+      context 'negative' do
+        let(:word) { '-10' }
+        it 'returns true' do
+          expect(subject).to be_true
+        end
+      end
+    end
+    context 'not an int' do
+      let(:word) { 'pizza' }
+      it 'returns false' do
+        expect(subject).to be_false
+      end
     end
   end
 
@@ -84,8 +114,8 @@ describe Syllabize::Counter do
 
   describe '#count_diphthongs' do
     it 'counts the diphthongs in a word' do
-      expect(Syllabize::Counter.new('air').count_diphthongs).to eq(1) 
-      expect(Syllabize::Counter.new('aerie').count_diphthongs).to eq(2) 
+      expect(Syllabize::Counter.new('air').count_diphthongs).to eq(1)
+      expect(Syllabize::Counter.new('aerie').count_diphthongs).to eq(2)
     end
   end
 
@@ -99,23 +129,28 @@ describe Syllabize::Counter do
     context 'given a string' do
       it 'counts the syllables in a word' do
         {
-          'blizzard'  => 2,
-          'why'       => 1,
-          'plain'     => 1,
-          'sticky'    => 2,
-          'syzygy'    => 3,
-          'yeses'     => 2,
-          'communism' => 4,
-          'please'    => 1,
-          'candle'    => 2,
-          'handling'  => 3,
-          'realize'   => 3,
-          'really'    => 2,
-          'cooperate' => 4,
-          'ways'      => 1,
-          "Wayne's"   => 1,
-          'basement'  => 2,
-          'coach'     => 1
+          'blizzard'          => 2,
+          'why'               => 1,
+          'plain'             => 1,
+          'sticky'            => 2,
+          'syzygy'            => 3,
+          'yeses'             => 2,
+          'communism'         => 4,
+          'please'            => 1,
+          'candle'            => 2,
+          'handling'          => 3,
+          'realize'           => 3,
+          'really'            => 2,
+          'cooperate'         => 4,
+          'ways'              => 1,
+          "Wayne's"           => 1,
+          'basement'          => 2,
+          'coach'             => 1,
+          'five'              => 1,
+          'hundred'           => 2,
+          'I really think so' => 5,
+          '500'               => 3,
+          '1,000,000'         => 3,
         }.each do |word, actual|
           count = Syllabize::Counter.new(word).count_syllables
           expect(count).to eq(actual), "'#{word}' was not the correct number of syllables; expected #{actual}, was #{count}"
