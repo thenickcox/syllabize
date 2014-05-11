@@ -14,7 +14,7 @@ module Syllabize
     CONSONANTS = /[bcdfghjklmnpqrstvwxz]/i
     VOWELS = /[aeiou]/i
     LE_VOWEL_SOUND = /((le)\z)|((le(d|r|s))|(ling)\z)/i
-    DIPHTHONGS = /ou|ie|oo|oi|ea|ee|ai|ae|ay/i
+    DIPHTHONGS = /ou|ie|oa|oo|oi|ea|ee|ai|ae|ay/i
     Y_AS_VOWEL = /[^yY][yY]/
     RE_VOWEL = /(^re[aeiou])/i
 
