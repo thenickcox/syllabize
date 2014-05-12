@@ -27,8 +27,25 @@ require 'syllabize'
 # => 2
 ```
 
+As of version 0.6.0, syllabize now supports numbers and multiword strings.
+
+```bash
+require 'syllabize'
+# => true
+'500'.count_syllables
+# => 3
+'this gem is cool'.count_syllables
+# => 4
+```
+
+
+
 ## Contributing
 
+### File an issue
+The English language is full of exceptions to rules. One of the best ways to contribute is to [file an issue](https://github.com/thenickcox/syllabize/issues) with any exceptions you find.
+
+### Hack on the gem
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Write tests and run them (`rake` or `rspec`)
