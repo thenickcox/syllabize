@@ -1,5 +1,7 @@
 # Syllabize
 
+[![Code Climate](https://codeclimate.com/github/thenickcox/syllabize.png)](https://codeclimate.com/github/thenickcox/syllabize)
+
 Syllabize is a simple syllable counter written in Ruby.
 
 ## Installation
