@@ -151,6 +151,7 @@ describe Syllabize::Counter do
           'I really think so' => 5,
           '500'               => 3,
           '1,000,000'         => 3,
+          'Anne of'           => 2,
         }.each do |word, actual|
           count = Syllabize::Counter.new(word).count_syllables
           expect(count).to eq(actual), "'#{word}' was not the correct number of syllables; expected #{actual}, was #{count}"

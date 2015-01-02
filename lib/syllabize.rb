@@ -36,7 +36,7 @@ module Syllabize
     end
 
     def strip_punctuation(string)
-      string.gsub(/\W/,'')
+      string.gsub(/[[:punct:]]/,'')
     end
 
     def is_int_in_string_form?
