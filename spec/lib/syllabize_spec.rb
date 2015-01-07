@@ -157,6 +157,29 @@ describe Syllabize::Counter do
           expect(count).to eq(actual), "'#{word}' was not the correct number of syllables; expected #{actual}, was #{count}"
         end
       end
+
+      context 'with suffix /ed/' do
+        context '/ed/ is before /t/, /d/, /tr/, /tl/, /dr/, /dl/' do
+          it 'counts /ed/ as a syllable' do
+            expect(Syllabize::Counter.new('herded').count_syllables).to eq(2)
+            expect(Syllabize::Counter.new('carted').count_syllables).to eq(2)
+            expect(Syllabize::Counter.new('hundred').count_syllables).to eq(2)
+            expect(Syllabize::Counter.new('hatred').count_syllables).to eq(2)
+          end
+        end
+        context '/ed/ is before sounds unrelated to /t/ and /d/' do
+          it 'does not count /ed/ as a syllable' do
+            expect(Syllabize::Counter.new('worked').count_syllables).to eq(1)
+            expect(Syllabize::Counter.new('flapped').count_syllables).to eq(1)
+            expect(Syllabize::Counter.new('sneered').count_syllables).to eq(1)
+          end
+        end
+        context '/ed/ is the only syllable of a word' do
+          it 'it does count /ed/ as a syllable' do
+            expect(Syllabize::Counter.new('bed').count_syllables).to eq(1)
+          end
+        end
+      end
     end
     context 'other data' do
       it 'raises an error' do
@@ -169,5 +192,4 @@ describe Syllabize::Counter do
     subject { 'hello'.count_syllables }
     it { should == 2 }
   end
-
 end

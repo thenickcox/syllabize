@@ -75,6 +75,7 @@ module Syllabize
     def handle_subtractions
       @syllables -= 1 if ends_in_silent_e?
       @syllables -= count_diphthongs if contains_diphthongs?
+      @syllables -= 1 if ends_in_non_syllablic_ed?
     end
 
     def count_vowels
@@ -113,6 +114,25 @@ module Syllabize
       str.end_with?('sm')
     end
 
+    def has_more_than_one_syllable?
+      (count_vowels - count_diphthongs) > 1
+    end
+
+    def ends_in_ed?
+      str.end_with?('ed')
+    end
+
+    def ending_ed_is_not_syllablic?
+      str.scan(/(t|d|tr|dr|tl|dl)ed\b/).empty?
+    end
+
+    def ends_in_non_syllablic_ed?
+      if has_more_than_one_syllable? && ends_in_ed? && ending_ed_is_not_syllablic?
+        true
+      else
+        false
+      end
+    end
 
     # for Ruby 1.9
     def __dir__
