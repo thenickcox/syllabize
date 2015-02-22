@@ -10,6 +10,7 @@ module Syllabize
       @str = strip_punctuation(str)
       handle_non_string_input
       load_exceptions
+      @syllables = 0
     end
 
     CONSONANTS = /[bcdfghjklmnpqrstvwxz]/i
@@ -18,18 +19,29 @@ module Syllabize
     DIPHTHONGS = /ou|ie|io|oa|oo|oi|ea|ee|ai|ae|ay/i
     Y_AS_VOWEL = /[^yY][yY]/
     RE_VOWEL = /(^re[aeiou])/i
+    SUFFIXES = /(?<=.)(able|ible|al|ial|ed|en|er|est|ful|ic|ing|ion|ing|less|ly|ment|nes|ous)\z/
 
     def count_syllables
       @str = str.to_i.to_words if is_int_in_string_form?
       return break_into_words  if str.split(' ').length > 1
       return handle_exceptions if exceptions.keys.include?(str)
-      @syllables = count_vowels
+      count_suffixes if str.scan(SUFFIXES).any?
+      @syllables += count_vowels
       handle_additions
       handle_subtractions
       @syllables <= 1 ? 1 : @syllables
     end
 
     private
+
+    def count_suffixes
+      @syllables -= 1 if ends_in_non_syllablic_ed?
+      while str.scan(SUFFIXES).any?
+        suffix = str.scan(SUFFIXES).flatten.last
+        str.sub! /(?<=.)#{suffix}/, ''
+        @syllables += 1
+      end
+    end
 
     def break_into_words
       str.split(' ').collect(&:count_syllables).reduce(:+)
@@ -62,7 +74,7 @@ module Syllabize
     end
 
     def handle_exceptions
-      exceptions[str.to_s]
+      exceptions[str]
     end
 
     def handle_additions
@@ -75,7 +87,6 @@ module Syllabize
     def handle_subtractions
       @syllables -= 1 if ends_in_silent_e?
       @syllables -= count_diphthongs if contains_diphthongs?
-      @syllables -= 1 if ends_in_non_syllablic_ed?
     end
 
     def count_vowels
@@ -83,7 +94,7 @@ module Syllabize
     end
 
     def ends_in_silent_e?
-      str.downcase.each_char.to_a.last == 'e'
+      str.end_with?('e')
     end
 
     def contains_le_vowel_sound?

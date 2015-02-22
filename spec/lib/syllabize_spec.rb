@@ -152,6 +152,8 @@ describe Syllabize::Counter do
           '500'               => 3,
           '1,000,000'         => 3,
           'Anne of'           => 2,
+          'purely'            => 2,
+          'menacingly'        => 4,
         }.each do |word, actual|
           count = Syllabize::Counter.new(word).count_syllables
           expect(count).to eq(actual), "'#{word}' was not the correct number of syllables; expected #{actual}, was #{count}"
@@ -159,7 +161,7 @@ describe Syllabize::Counter do
       end
 
       context 'with suffix /ed/' do
-        context '/ed/ is before /t/, /d/, /tr/, /tl/, /dr/, /dl/' do
+        context '/ed/ is after /t/, /d/, /tr/, /tl/, /dr/, /dl/' do
           it 'counts /ed/ as a syllable' do
             expect(Syllabize::Counter.new('herded').count_syllables).to eq(2)
             expect(Syllabize::Counter.new('carted').count_syllables).to eq(2)
@@ -167,7 +169,7 @@ describe Syllabize::Counter do
             expect(Syllabize::Counter.new('hatred').count_syllables).to eq(2)
           end
         end
-        context '/ed/ is before sounds unrelated to /t/ and /d/' do
+        context '/ed/ is after sounds unrelated to /t/ and /d/' do
           it 'does not count /ed/ as a syllable' do
             expect(Syllabize::Counter.new('worked').count_syllables).to eq(1)
             expect(Syllabize::Counter.new('flapped').count_syllables).to eq(1)
