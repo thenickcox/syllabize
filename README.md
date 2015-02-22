@@ -27,20 +27,14 @@ require 'syllabize'
 # => true
 'Ruby'.count_syllables
 # => 2
-```
-
-As of version 0.6.0, syllabize now supports numbers and multiword strings.
-
-```bash
-require 'syllabize'
-# => true
 '500'.count_syllables
 # => 3
 'this gem is cool'.count_syllables
 # => 4
 ```
 
-
+## Changes
+See [changelog](https://github.com/thenickcox/syllabize/changelog.md).
 
 ## Contributing
 
