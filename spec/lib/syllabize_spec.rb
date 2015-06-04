@@ -9,6 +9,15 @@ end
 
 describe Syllabize::Counter do
 
+  describe 'regex constants' do
+    describe 'SUFFIXES' do
+      it 'only matches the suffix pattern if at the end of a string *preceded by other chars*' do
+        expect(Syllabize::Counter::SUFFIXES =~ 'able').to be_nil
+        expect(Syllabize::Counter::SUFFIXES =~ 'findable').to eq(4)
+      end
+    end
+  end
+
   describe '#count_vowels' do
     let(:word) { 'America' }
     it 'counts the vowels in a word' do
